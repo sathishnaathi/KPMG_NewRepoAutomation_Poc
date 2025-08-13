@@ -3,9 +3,9 @@ import base64
 import requests
 
 #GitHub credentials and configuration
-GITHUB_TOKEN = os.getenv("Repo_Token")          # Updated token environment variable
-GITHUB_USERNAME = os.getenv("Repo_Username")    # Updated username environment variable
-REPO_NAME = "kpmg-us-nexus-ch-sapi"
+GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
+GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
+REPO_NAME = "kpmg-us-nexus-FOTAKS-sapi"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 
 HEADERS = {
