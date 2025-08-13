@@ -18,7 +18,7 @@ def create_repository():
     url = "https://api.github.com/user/repos"
     data = {
         "name": REPO_NAME,
-        "private": True,
+        "private": False,
         "auto_init": False
     }
     response = requests.post(url, json=data, headers=HEADERS)
