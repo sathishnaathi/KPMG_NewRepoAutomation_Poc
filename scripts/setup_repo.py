@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "kpmg-us-nexus-FOTAKS-sapi"
+REPO_NAME = "kpmg-us-nexus-AKS-CH-sapi"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 
 HEADERS = {
@@ -18,7 +18,7 @@ def create_repository():
     url = "https://api.github.com/user/repos"
     data = {
         "name": REPO_NAME,
-        "private": False,
+        "private": True,
         "auto_init": False
     }
     response = requests.post(url, json=data, headers=HEADERS)
@@ -28,7 +28,7 @@ def create_repository():
 #add Readme file
 def add_readme():
     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/README.md"
-    content = base64.b64encode(b"# Welcome to the repository").decode("utf-8")
+    content = base64.b64encode(b"# Hello Devsecops team welcome to the repository").decode("utf-8")
     data = {
         "message": "Add README.md",
         "content": content,
