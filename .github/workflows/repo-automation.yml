@@ -1,0 +1,29 @@
+name: GitHub Repo Automation
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  automate-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: pip install PyGithub gitpython
+      
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Run Python script to automate repo setup      
+      env:
+        REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+        REPO_USER: ${{ secrets.REPO_USER }}
+      run: python scripts/setup_repo.py
