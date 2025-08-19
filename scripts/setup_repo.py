@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "kpmg-us-nexus-dummy-sapi"
+REPO_NAME = "kpmg-us-AKS-dummy-sapi"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 
 HEADERS = {
