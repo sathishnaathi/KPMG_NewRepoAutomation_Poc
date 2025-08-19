@@ -18,10 +18,7 @@ jobs:
         
     - name: Install dependencies
       run: pip install PyGithub gitpython
-      
-    - name: Install dependencies
-      run: pip install requests
-
+    
     - name: Run Python script to automate repo setup      
       env:
         REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
