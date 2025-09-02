@@ -5,8 +5,9 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "Dummy-Repo"
+REPO_NAME = "Dummy-Repo-new"
 FEATURE_BRANCH = "Feature/CICDAutomation"
+ENVIRONMENT_NAME = "UAT-PROD"
 
 HEADERS = {
     "Authorization": f"token {GITHUB_TOKEN}",
@@ -74,12 +75,24 @@ def enable_branch_protection(branch):
     response.raise_for_status()
     print(f"Branch protection enabled for '{branch}'.")
 
+# Create environment UAT-PROD
+def create_environment():
+    url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}"
+    response = requests.put(url, headers=HEADERS)
+    if response.status_code in (201, 204):
+        print(f"Environment '{ENVIRONMENT_NAME}' created successfully.")
+    else:
+        print(f"Failed to create environment '{ENVIRONMENT_NAME}': {response.status_code}")
+        print(response.json())
+
+
 def main():
     create_repository()
     add_readme()
     create_feature_branch()
     enable_branch_protection("main")
     enable_branch_protection(FEATURE_BRANCH)
+    create_environment()
 
 if __name__ == "__main__":
     main()
