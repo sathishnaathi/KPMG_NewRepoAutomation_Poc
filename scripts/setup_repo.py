@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "devops-Repo-new"
+REPO_NAME = "devsecops-Repo-new"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
@@ -19,7 +19,7 @@ def create_repository():
     url = "https://api.github.com/user/repos"
     data = {
         "name": REPO_NAME,
-        "private": False,
+        "private": True,
         "auto_init": False
     }
     response = requests.post(url, json=data, headers=HEADERS)
