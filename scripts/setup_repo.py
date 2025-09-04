@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "DummySathish_Repo"
+REPO_NAME = "DummyMouni_Repo"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
