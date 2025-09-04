@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "devsecopsdummy-Repo-new"
+REPO_NAME = "repo_kpmg"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
@@ -138,6 +138,7 @@ def main():
     create_feature_branch()
     enable_branch_protection("main")
     enable_branch_protection(FEATURE_BRANCH)
+    
     branch_patterns = ["release", "uatdeploy", "proddeploy"]  # You can also try ["release*", "uatdeploy*", "proddeploy*"] if needed
     for pattern in branch_patterns:
     enable_branch_protection_pattern(pattern)
