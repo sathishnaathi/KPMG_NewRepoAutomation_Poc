@@ -5,7 +5,7 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "devsecops-Repo-new"
+REPO_NAME = "devsecopsdummy-Repo-new"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
@@ -19,7 +19,7 @@ def create_repository():
     url = "https://api.github.com/user/repos"
     data = {
         "name": REPO_NAME,
-        "private": True,
+        "private": False,
         "auto_init": False
     }
     response = requests.post(url, json=data, headers=HEADERS)
@@ -73,7 +73,27 @@ def enable_branch_protection(branch):
     }
     response = requests.put(url, json=data, headers=HEADERS)
     response.raise_for_status()
-    print(f"Branch protection enabled for '{branch}'.")
+    print(f"Branch protection enabled for existing branch '{branch}'.")
+
+def enable_branch_protection_pattern(branch_pattern):
+    url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/branches/{branch_pattern}/protection"
+    data = {
+        "required_status_checks": {
+            "strict": True,
+            "contexts": []
+        },
+        "enforce_admins": True,
+        "required_pull_request_reviews": {
+            "required_approving_review_count": 1
+        },
+        "restrictions": None
+    }
+    response = requests.put(url, json=data, headers=HEADERS)
+    if response.status_code == 200:
+        print(f"Branch protection enabled for pattern '{branch_pattern}'.")
+    else:
+        print(f"Failed to enable branch protection for pattern '{branch_pattern}': {response.status_code}")
+        print(response.json())
 
 # Create environment UAT-PROD
 def create_environment():
@@ -118,9 +138,12 @@ def main():
     create_feature_branch()
     enable_branch_protection("main")
     enable_branch_protection(FEATURE_BRANCH)
+    
+    branch_patterns = ["release", "uatdeploy", "proddeploy"]  # You can also try ["release*", "uatdeploy*", "proddeploy*"] if needed
+    for pattern in branch_patterns:
+        enable_branch_protection_pattern(pattern)
     create_environment()
-    add_deployment_protection_rules()
-    set_deployment_branches_and_tags()
+    
 
 if __name__ == "__main__":
     main()
