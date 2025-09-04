@@ -138,10 +138,9 @@ def main():
     create_feature_branch()
     enable_branch_protection("main")
     enable_branch_protection(FEATURE_BRANCH)
-    
     branch_patterns = ["release", "uatdeploy", "proddeploy"]  # You can also try ["release*", "uatdeploy*", "proddeploy*"] if needed
     for pattern in branch_patterns:
-        enable_branch_protection_pattern(pattern)
+    enable_branch_protection_pattern(pattern)
     create_environment()
     
 
