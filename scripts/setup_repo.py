@@ -99,7 +99,7 @@ def enable_branch_protection(branch):
 def create_environment():
     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}"
     response = requests.put(url, headers=HEADERS)
-    if response.status_code in (201, 204):
+    if response.status_code in (200,201, 204):
         print(f"Environment '{ENVIRONMENT_NAME}' created successfully.")
     else:
         print(f"Failed to create environment '{ENVIRONMENT_NAME}': {response.status_code}")
