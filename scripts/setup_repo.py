@@ -5,15 +5,20 @@ import requests
 #GitHub credentials and configuration
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
-REPO_NAME = "DummyMouni_Repo"
+REPO_NAME = "CGDUMMY_Repo"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
 HEADERS = {
     "Authorization": f"token {GITHUB_TOKEN}",
     "Accept": "application/vnd.github.v3+json"
-}
+} 
 
+TEAM_PERMISSIONS = {
+    "mulesoft devops team": "admin",
+    "mulesoft development team": "pull",  # read = pull
+    "mulesoft fot team": "push"           # write = push
+}
 # Create repository
 def create_repository():
     url = "https://api.github.com/user/repos"
@@ -104,6 +109,29 @@ def create_environment():
     else:
         print(f"Failed to create environment '{ENVIRONMENT_NAME}': {response.status_code}")
         print(response.json())
+
+def add_teams_to_repo():
+    for team_slug, permission in TEAM_PERMISSIONS.items():
+        # Convert team name to slug (lowercase, spaces to dashes)
+        team_slug_clean = team_slug.lower().replace(" ", "-")
+        url = f"https://api.github.com/orgs/{GITHUB_ORG}/teams/{team_slug_clean}/repos/{GITHUB_ORG}/{REPO_NAME}"
+        data = {
+            "permission": permission  # admin, push, pull
+        }
+
+        response = requests.put(url, json=data, headers=HEADERS)
+
+        if response.status_code in [204, 201]:
+            print(f"✅ Team '{team_slug}' added with '{permission}' permission.")
+        elif response.status_code == 404:
+            print(f"❌ Team or repo not found: '{team_slug}'")
+        elif response.status_code == 403:
+            print(f"🚫 Forbidden – Check token permissions for org/repo access.")
+        elif response.status_code == 422:
+            print(f"⚠️ Team '{team_slug}' could not be added – check repo visibility or if already has access.")
+        else:
+            print(f"❌ Error adding team '{team_slug}' – Status: {response.status_code}")
+            print(response.text)
         
 # def add_deployment_protection_rules():
 #     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}/deployment_protection_rules"
@@ -143,6 +171,7 @@ def main():
     # for pattern in branch_patterns:
     # enable_branch_protection_pattern(pattern)
     create_environment()
+    add_teams_to_repo()
     
 
 if __name__ == "__main__":
