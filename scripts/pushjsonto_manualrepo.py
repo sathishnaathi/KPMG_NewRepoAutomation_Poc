@@ -7,8 +7,8 @@ import requests
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")  # GitHub token passed via environment
 REPO_OWNER = os.getenv("REPO_USER")              # Replace with actual GitHub username/org that owns sathishdummy-repo
 REPO_NAME = "SathishDummy-Repo"
-FILE_PATH = "data.json"
-BRANCH = "main"                           # Change if pushing to a different branch
+FILE_PATH = "configs/data.json"
+BRANCH = "develop"                           # Change if pushing to a different branch
 COMMIT_MESSAGE = "Automated: Add dummy JSON file from KPMG_NewRepoAutomation_Poc"
 
 # Dummy JSON content
@@ -28,7 +28,7 @@ def encode_content(data: dict) -> str:
 
 def get_existing_file_sha():
     headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Authorization": f"token {GITHUB_TOKEN}",
         "Accept": "application/vnd.github+json"
     }
     params = {"ref": BRANCH}
