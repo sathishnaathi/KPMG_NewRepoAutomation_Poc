@@ -9,7 +9,7 @@ REPO_OWNER = os.getenv("REPO_USER")              # Replace with actual GitHub us
 REPO_NAME = "SathishDummy-Repo"
 FILE_PATH = "data.json"
 BRANCH = "main"                           # Change if pushing to a different branch
-COMMIT_MESSAGE = "Automated: Add dummy JSON file from CG_Repo"
+COMMIT_MESSAGE = "Automated: Add dummy JSON file from KPMG_NewRepoAutomation_Poc"
 
 # Dummy JSON content
 DUMMY_DATA = {
