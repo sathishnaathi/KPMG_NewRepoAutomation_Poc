@@ -6,7 +6,7 @@ import requests
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
 GITHUB_ORG = os.getenv("REPO_USER")
-REPO_NAME = "DummyCG_Repo"
+REPO_NAME = "CGDummy_Repo"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
