@@ -24,3 +24,8 @@ jobs:
         REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         REPO_USER: ${{ secrets.REPO_USER }}
       run: python scripts/setup_repo.py
+      
+    - name: Push dummy JSON to Manual repo
+      env:
+        REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  
+      run: python scripts/pushjsonto_manualrepo.py
