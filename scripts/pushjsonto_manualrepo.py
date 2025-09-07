@@ -13,8 +13,8 @@ COMMIT_MESSAGE = "Automated: Add dummy JSON file from KPMG_NewRepoAutomation_Poc
 
 # Dummy JSON content
 DUMMY_DATA = {
-    "user": "testuser",
-    "email": "testuser@example.com",
+    "user": "Sathish",
+    "email": "sathishkumar@example.com",
     "active": True
 }
 
