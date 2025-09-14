@@ -63,24 +63,36 @@ def create_feature_branch():
     response.raise_for_status()
     print(f"Feature branch '{FEATURE_BRANCH}' created successfully.")
   
-#enable branch protection rule
 def enable_branch_protection(branch):
-    url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/branches/{branch}/protection"
+    url = f"https://api.github.com/repos/{GITHUB_ORG}/{REPO_NAME}/branches/{branch}/protection"
     data = {
         "required_status_checks": {
             "strict": True,
-            "contexts": []
+            "contexts": []  # Add CI contexts here if needed
         },
         "enforce_admins": True,
         "required_pull_request_reviews": {
+            "dismiss_stale_reviews": True,
+            "require_code_owner_reviews": False,
             "required_approving_review_count": 1
         },
-        "restrictions": None
+        "restrictions": None,
+        "allow_force_pushes": False,
+        "allow_deletions": False
     }
     response = requests.put(url, json=data, headers=HEADERS)
-    response.raise_for_status()
-    print(f"Branch protection enabled for '{branch}'.")
-    
+    if response.status_code in [200, 201]:
+        print(f"✅ Branch protection enabled for '{branch}'.")
+    elif response.status_code == 403:
+        print("🚫 Forbidden – Check if your token has 'repo' and 'admin:repo_hook' scopes.")
+        print(response.text)
+    elif response.status_code == 404:
+        print(f"❌ Branch '{branch}' or repository not found.")
+        print(response.text)
+    else:
+        print(f"❌ Unexpected error – Status: {response.status_code}")
+        print(response.text)
+
 # Create environment UAT-PROD
 def create_environment():
     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}"
