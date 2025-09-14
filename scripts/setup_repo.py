@@ -15,7 +15,7 @@ HEADERS = {
     "Accept": "application/vnd.github.v3+json"
 } 
 
-TEAM_PERMISSIONS = {
+USER_PERMISSIONS = {
     "Satish": "admin",
     "Ravi": "pull",  # read = pull
     "Abhi": "push"   # write = push
