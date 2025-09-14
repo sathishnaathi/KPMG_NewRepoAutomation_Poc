@@ -151,7 +151,7 @@ def main():
     # for pattern in branch_patterns:
     # enable_branch_protection_pattern(pattern)
     create_environment()
-    add_teams_to_repo()
+    add_users_to_repo()
     
 
 if __name__ == "__main__":
