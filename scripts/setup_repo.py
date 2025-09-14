@@ -6,7 +6,7 @@ import requests
 GITHUB_TOKEN = os.getenv("REPO_TOKEN")          # Updated token environment variable
 GITHUB_USERNAME = os.getenv("REPO_USER")        # Updated username environment variable
 GITHUB_ORG = os.getenv("REPO_USER")
-REPO_NAME = "AbhiDummy_Repo"
+REPO_NAME = "AutomationDummy_Repo"
 FEATURE_BRANCH = "Feature/CICDAutomation"
 ENVIRONMENT_NAME = "UAT-PROD"
 
@@ -16,9 +16,9 @@ HEADERS = {
 } 
 
 TEAM_PERMISSIONS = {
-    "mulesoft devops team": "admin",
-    "mulesoft development team": "pull",  # read = pull
-    "mulesoft fot team": "push"           # write = push
+    "Satish": "admin",
+    "Ravi": "pull",  # read = pull
+    "Abhi": "push"   # write = push
 }
 # Create repository
 def create_repository():
@@ -91,53 +91,28 @@ def create_environment():
         print(f"Failed to create environment '{ENVIRONMENT_NAME}': {response.status_code}")
         print(response.json())
         
-def get_team_slugs():
+def add_users_to_repo():
     """
-    Fetch all teams from the organization and return a mapping of display name -> slug.
+    Adds each user to the repo with specified permission.
     """
-    team_slug_map = {}
-    url = f"https://api.github.com/orgs/{GITHUB_ORG}/teams"
-    response = requests.get(url, headers=HEADERS)
-
-    if response.status_code == 200:
-        for team in response.json():
-            team_slug_map[team["name"]] = team["slug"]
-        return team_slug_map
-    else:
-        print(f"❌ Failed to fetch team list. Status code: {response.status_code}")
-        print(response.text)
-        return {}
-
-def add_teams_to_repo():
-    """
-    Adds each team to the repo using actual team slugs fetched from GitHub.
-    """
-    team_slug_map = get_team_slugs()
-
-    for team_display_name, permission in TEAM_PERMISSIONS.items():
-        team_slug = team_slug_map.get(team_display_name)
-
-        if not team_slug:
-            print(f"❌ Team '{team_display_name}' not found in GitHub org '{GITHUB_ORG}'. Skipping.")
-            continue
-
-        url = f"https://api.github.com/orgs/{GITHUB_ORG}/teams/{team_slug}/repos/{GITHUB_ORG}/{REPO_NAME}"
+    for username, permission in USER_PERMISSIONS.items():
+        url = f"https://api.github.com/repos/{GITHUB_ORG}/{REPO_NAME}/collaborators/{username}"
         data = {
-            "permission": permission  # Options: admin, push, pull
+            "permission": permission  # Options: pull, push, admin, maintain, triage
         }
         response = requests.put(url, json=data, headers=HEADERS)
-        if response.status_code in [204, 201]:
-            print(f"✅ Team '{team_display_name}' added with '{permission}' permission.")
+        if response.status_code in [201, 204]:
+            print(f"✅ User '{username}' added with '{permission}' permission.")
         elif response.status_code == 404:
-            print(f"❌ Team or repo not found: '{team_display_name}' (slug: '{team_slug}')")
+            print(f"❌ User or repo not found: '{username}'")
         elif response.status_code == 403:
             print(f"🚫 Forbidden – Check token permissions for org/repo access.")
         elif response.status_code == 422:
-            print(f"⚠️ Team '{team_display_name}' could not be added – check repo visibility or if already has access.")
+            print(f"⚠️ User '{username}' could not be added – check repo visibility or if already has access.")
         else:
-            print(f"❌ Error adding team '{team_display_name}' – Status: {response.status_code}")
+            print(f"❌ Error adding user '{username}' – Status: {response.status_code}")
             print(response.text)
-        
+            
 # def add_deployment_protection_rules():
 #     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}/deployment_protection_rules"
 #     data = {
