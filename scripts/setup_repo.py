@@ -112,43 +112,12 @@ def add_users_to_repo():
             print(f"❌ Error adding user '{username}' – Status: {response.status_code}")
             print(response.text)
             
-# def add_deployment_protection_rules():
-#     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}/deployment_protection_rules"
-#     data = {
-#         "name": "required_reviewers",
-#         "type": "required_reviewers",
-#         "prevent_self_review": True
-#     }
-#     response = requests.post(url, headers=HEADERS, json=data)
-#     if response.status_code == 201:
-#         print("Deployment protection rules set successfully.")
-#     else:
-#         print(f"Failed to set deployment protection rules: {response.status_code}")
-#         print(response.json())
-
-# def set_deployment_branches_and_tags():
-#     url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/environments/{ENVIRONMENT_NAME}/deployment_branch_policies"
-#     data = {
-#         "protected_branches": True,  
-#         "custom_branch_policies": []  
-#     }
-#     response = requests.put(url, json=data, headers=HEADERS)
-#     if response.status_code in (200, 201, 204):
-#         print("Deployment branches and tags configured successfully (none allowed).")
-#     else:
-#         print(f"Failed to configure deployment branches and tags: {response.status_code}")
-#         print(response.json())
-
 def main():
     create_repository()
     add_readme()
     create_feature_branch()
     enable_branch_protection("main")
     enable_branch_protection(FEATURE_BRANCH)
-    
-    # branch_patterns = ["release", "uatdeploy", "proddeploy"]  # You can also try ["release*", "uatdeploy*", "proddeploy*"] if needed
-    # for pattern in branch_patterns:
-    # enable_branch_protection_pattern(pattern)
     create_environment()
     add_users_to_repo()
     
