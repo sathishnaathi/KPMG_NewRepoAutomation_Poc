@@ -16,9 +16,9 @@ HEADERS = {
 } 
 
 USER_PERMISSIONS = {
-    "Satish": "admin",
-    "Kumar": "pull",  # read = pull
-    "Abhishek": "push"   # write = push
+    "Sathishkumar.naathi@gmail.com": "admin",
+    "Sathishkumar.naathi@gmail.com": "pull",  # read = pull
+    "Sathishkumar.naathi@gmail.com": "push"   # write = push
 }
 # Create repository
 def create_repository():
